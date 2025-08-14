@@ -31,7 +31,7 @@ for name in file_name:
 # Create a dataframe to store the articles and their file names
 articles_df = pd.DataFrame()
 articles_df["text"] = articles_list
-# %%
+
 
 # Extract the date and clean text from each article
 clean_text = [] #main article content
@@ -136,7 +136,7 @@ texts = articles_df['body_text'].astype(str).tolist()
 # Step 2: Vectorize with TF-IDF
 vectorizer = TfidfVectorizer(stop_words='english', max_df=0.9, min_df=2)
 tfidf_matrix = vectorizer.fit_transform(texts)
-# %%
+
 # Step 3: Compute cosine similarity matrix
 cosine_sim = cosine_similarity(tfidf_matrix)
 

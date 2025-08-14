@@ -2,31 +2,30 @@ import pandas as pd
 import os
 os.chdir('/home/t/Documents/uni/Master/SoSe25/FP - GenAI')
 
+# Load datasets A and B
 newspaper_df_A = pd.read_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_A.csv')
-
 newspaper_df_B = pd.read_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_B.csv')
 
-# %%
+
 # Ensure article IDs are unique across groups
 newspaper_df_A['article_id'] = 'A_' + newspaper_df_A['article_id'].astype(str)
 newspaper_df_B['article_id'] = 'B_' + newspaper_df_B['article_id'].astype(str)
 
+
 # Merge the dataframes
 merged_df = pd.concat([newspaper_df_A, newspaper_df_B], ignore_index=True)
 
+
 # Drop unwanted columns
 columns_to_drop = ['Unnamed: 0', 'text', 'group', 'word_count_paragraph', 'word_count_body_text']
-merged_df = merged_df.drop(columns=columns_to_drop, errors='ignore')  # Use errors='ignore' in case some columns are missing
+merged_df = merged_df.drop(columns=columns_to_drop, errors='ignore')
 
 # Save to CSV
 merged_df.to_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_mergedAB.csv', index=False)
 
 
-# %%
 
-
-
-import pandas as pd
+# Plot article frequency over time
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
@@ -44,9 +43,10 @@ filters = {
 
 # Colors for newspapers
 color_map = {
-    "Welt": "#05668d",  # blue
-    "FR":   "#679436",  # green
+    "Welt": "#034158",  # dark blue
+    "FR":   "#3f6224",  # light green
 }
+
 
 # Prepare frequency data per newspaper, dropping the last month
 frequency_dfs = []
@@ -54,8 +54,9 @@ for label, condition in filters.items():
     df_filtered = unique_articles[condition]
     freq = df_filtered.groupby(df_filtered['date'].dt.to_period('M')).size()
     freq.index = freq.index.to_timestamp()
-    freq = freq.iloc[:-1]  # remove last month
+    freq = freq.iloc[:-1]
     frequency_dfs.append(freq.rename(label))
+
 
 # Combine frequencies into one DataFrame (with last month removed)
 freq_df = pd.concat(frequency_dfs, axis=1)
@@ -66,7 +67,7 @@ plt.figure(figsize=(16, 4.5))
 for label in freq_df.columns:
     plt.plot(freq_df.index, freq_df[label], label=label, color=color_map[label], linewidth=1.5)
 
-# Arithmetic mean line (also excluding last month)
+# Arithmetic mean line
 arithmetic_mean = freq_df.mean(axis=1)
 plt.plot(arithmetic_mean.index, arithmetic_mean.values,
          label="Arithmetic Mean", color="black", linestyle="--", linewidth=2)
@@ -110,71 +111,7 @@ plt.tight_layout()
 plt.savefig("Hausarbeit2.0/Plots/Articles_per_month_newspaper.pdf", format='pdf', bbox_inches='tight')
 plt.show()
 
-# %%
-import pandas as pd
-import matplotlib.pyplot as plt
 
-# Ensure 'date' is a datetime object
-merged_df['date'] = pd.to_datetime(merged_df['date'])
-
-# Drop duplicate article entries (if each article has multiple paragraphs)
-unique_articles = merged_df.drop_duplicates(subset=['article_id'])
-
-# Define filters using article_id and newspaper
-filters = {
-    "Welt A": unique_articles['newspaper'].eq('Welt') & unique_articles['article_id'].str.startswith('A_'),
-    "FR A":   unique_articles['newspaper'].eq('FR')   & unique_articles['article_id'].str.startswith('A_'),
-    "Welt B": unique_articles['newspaper'].eq('Welt') & unique_articles['article_id'].str.startswith('B_'),
-    "FR B":   unique_articles['newspaper'].eq('FR')   & unique_articles['article_id'].str.startswith('B_'),
-}
-
-# Assign custom colors: blues for Welt, greens for FR
-color_map = {
-    "Welt A": "#05668d",  # blue
-    "Welt B": "#427aa1",  # light blue
-    "FR A":   "#679436",  # green
-    "FR B":   "#a5be00",  # light green
-}
-
-# Create plot
-plt.figure(figsize=(12, 6))
-
-# Loop through filters and plot
-for label, condition in filters.items():
-    df_filtered = unique_articles[condition]
-    frequency = df_filtered.groupby(df_filtered['date'].dt.to_period('M')).size()
-    frequency.index = frequency.index.to_timestamp()
-    plt.plot(frequency.index, frequency.values, label=label, color=color_map[label])
-
-# add arithmetic mean
-frequency_dfs = []
-for label, condition in filters.items():
-    df_filtered = unique_articles[condition]
-    freq = df_filtered.groupby(df_filtered['date'].dt.to_period('M')).size()
-    freq.index = freq.index.to_timestamp()
-    frequency_dfs.append(freq.rename(label))
-
-# Step 2: Combine all Series into one DataFrame
-freq_df = pd.concat(frequency_dfs, axis=1)
-
-# Step 3: Calculate arithmetic mean across the 4 groups
-arithmetic_mean = freq_df.mean(axis=1)
-
-# Step 4: Plot the arithmetic mean line
-plt.plot(arithmetic_mean.index, arithmetic_mean.values,
-         label="Arithmetic Mean", color="black", linestyle="--", linewidth=1.5)
-
-plt.title("Article Frequency Over Time")
-plt.xlabel("Date")
-plt.ylabel("Number of Articles")
-plt.legend()
-plt.tight_layout()
-plt.grid(True)
-plt.savefig("Hausarbeit2.0/Plots/Articles_per_month_AB.pdf", format='pdf', bbox_inches='tight')
-
-plt.show()
-
-# %%
 
 # Count unique articles per newspaper
 article_counts = merged_df.groupby("newspaper")["article_id"].nunique()
@@ -202,7 +139,7 @@ summary_table_pct = summary_table_pct.round(2)
 print(summary_table_pct)
 
 
-# %%
+
 # Count words in each paragraph and article
 merged_df["word_count_paragraph"] = merged_df["paragraph"].str.split().apply(len)
 
@@ -227,8 +164,9 @@ summary_word_count_df = summary_word_count_df.round(2)  # round means
 
 print(summary_word_count_df)
 
-# %%
-#Explore articles in September/October 2024: 
+
+
+# Explore articles in September/October 2024: 
 
 # Convert 'month' to datetime
 merged_df['month'] = pd.to_datetime(merged_df['month'], errors='coerce')
@@ -244,5 +182,3 @@ for idx, row in filtered_df.iterrows():
     input(f"\nPress Enter to read paragraph {idx + 1}/{len(filtered_df)}:\n")
     print(f"Title: {row['title']}\n")
     print(row['paragraph'])
-
-

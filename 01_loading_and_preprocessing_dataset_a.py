@@ -50,7 +50,7 @@ articles_df["body_text"] = clean_text
 # Add title
 articles_df["title"] = articles_df["metadata"].str.extract(r'^(.*?)\s+(?=Die Welt|Frankfurter Rundschau)')
 
-#Extract date and save it to the date column
+# Extract date and save it to the date column
 date = []
 for article in articles_df["text"]:
     if isinstance(article, str) and "Load-Date:" in article:
@@ -149,6 +149,8 @@ articles_df_deduplicated['group'] = 'A'
 
 
 # Separate articles by paragraph
+
+# Regex pattern dataset A
 migration_pattern = re.compile(
     r'(?i)\b(?:Migrat\w*|Migrant\w*|Zuwanderung\w*|Einwanderung\w*|Geflüchtet\w*|Flüchtling\w*|Drittstaat\w*)\b'
 )
@@ -163,9 +165,10 @@ for idx, row in articles_df_deduplicated.iterrows():
     if not isinstance(text, str):
         continue
 
-    total_questions = text.count('?')
+    total_questions = text.count('?') # Count ? to identify interviews (defined as documents with more than 10 question marks)
     paragraphs = re.split(r'\r?\n(?=[A-ZÄÖÜ]| )', text)
-    
+
+    # Decide whether to merge Q&A paragraphs
     do_merge = any("interview" in p.lower() for p in paragraphs) or (total_questions > 10)
     
     if do_merge:
@@ -185,6 +188,8 @@ for idx, row in articles_df_deduplicated.iterrows():
                 i += 1
         paragraphs = merged_paragraphs
 
+    
+    # Filter paragraphs by regex pattern
     for paragraph in paragraphs:
         paragraph = paragraph.strip()
         if not paragraph:
@@ -243,7 +248,7 @@ summary_table = pd.DataFrame({
     "paragraphs": paragraph_counts
 })
 
-# Optional: add a total row
+# Add a total row
 summary_table.loc["Total"] = [
     filtered_by_paragraph_df["article_id"].nunique(),
     len(filtered_by_paragraph_df)
@@ -252,6 +257,8 @@ summary_table.loc["Total"] = [
 # Display the table
 print(summary_table)
 
+
+# Save results
 filtered_by_paragraph_df.to_csv("Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_A.csv", index=False)
 
 

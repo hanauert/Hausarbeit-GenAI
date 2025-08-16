@@ -1,10 +1,12 @@
 import pandas as pd
 import os
-os.chdir('/home/t/Documents/uni/Master/SoSe25/FP - GenAI')
+
+# Set directory to the project folder (replace "USERNAME" with your directory path)
+os.chdir('/home/USERNAME/Hausarbeit_GenAI_Hanauer') 
 
 # Load datasets A and B
-newspaper_df_A = pd.read_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_A.csv')
-newspaper_df_B = pd.read_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_B.csv')
+newspaper_df_A = pd.read_csv('Data/df_newspaper_filtered_by_paragraph_A.csv')
+newspaper_df_B = pd.read_csv('Data/df_newspaper_filtered_by_paragraph_B.csv')
 
 
 # Ensure article IDs are unique across groups
@@ -21,7 +23,7 @@ columns_to_drop = ['Unnamed: 0', 'text', 'group', 'word_count_paragraph', 'word_
 merged_df = merged_df.drop(columns=columns_to_drop, errors='ignore')
 
 # Save to CSV
-merged_df.to_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_mergedAB.csv', index=False)
+merged_df.to_csv('Data/df_newspaper_filtered_by_paragraph_mergedAB.csv', index=False)
 
 
 
@@ -108,7 +110,7 @@ plt.ylabel("Number of Articles")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("Hausarbeit2.0/Plots/Articles_per_month_newspaper.pdf", format='pdf', bbox_inches='tight')
+plt.savefig("Plots/Articles_per_month_newspaper.pdf", format='pdf', bbox_inches='tight')
 plt.show()
 
 

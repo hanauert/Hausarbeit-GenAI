@@ -3,8 +3,8 @@ import os
 import pandas as pd
 from striprtf.striprtf import rtf_to_text
 
-# Set directory
-os.chdir('/home/t/Documents/uni/Master/SoSe25/FP - GenAI') 
+# Set directory to the project folder (replace "USERNAME" with your directory path)
+os.chdir('/home/USERNAME/Hausarbeit_GenAI_Hanauer') 
 
 
 def read_rtf_file(file_path):
@@ -15,7 +15,7 @@ def read_rtf_file(file_path):
 
 
 # Generate a list of all .rtf files in the specified directory (exclude doclist file)
-file_name = [rtf for rtf in glob.glob('Hausarbeit_GenAI_Hanauer/Data/Artikel_FR_Welt_A/*.RTF') if not os.path.basename(rtf).startswith('Dateien (')]
+file_name = [rtf for rtf in glob.glob('Data/Artikel_FR_Welt_A/*.RTF') if not os.path.basename(rtf).startswith('Dateien (')]
 
 
 # Sort the list of file names
@@ -259,7 +259,7 @@ print(summary_table)
 
 
 # Save results
-filtered_by_paragraph_df.to_csv("Hausarbeit_GenAI_Hanauer/Data/df_newspaper_filtered_by_paragraph_A.csv", index=False)
+filtered_by_paragraph_df.to_csv("Data/df_newspaper_filtered_by_paragraph_A.csv", index=False)
 
 
 # Plot wordcount

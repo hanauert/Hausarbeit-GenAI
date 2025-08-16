@@ -15,7 +15,7 @@ def read_rtf_file(file_path):
 
 
 # Generate a list of all .rtf files in the specified directory (exclude doclist file)
-file_name = [rtf for rtf in glob.glob('Hausarbeit2.0/Data/Artikel_FR_Welt_A/*.RTF') if not os.path.basename(rtf).startswith('Dateien (')]
+file_name = [rtf for rtf in glob.glob('Hausarbeit_GenAI_Hanauer/Data/Artikel_FR_Welt_A/*.RTF') if not os.path.basename(rtf).startswith('Dateien (')]
 
 
 # Sort the list of file names

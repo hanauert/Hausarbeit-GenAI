@@ -1,13 +1,14 @@
 import pandas as pd
 import os
 
-os.chdir('/home/t/Documents/uni/Master/SoSe25/FP - GenAI')
+# Set directory to the project folder (replace "USERNAME" with your directory path)
+os.chdir('/home/USERNAME/Hausarbeit_GenAI_Hanauer') 
     
-newspaper_df = pd.read_csv('Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_mergedAB.csv')
+newspaper_df = pd.read_csv('Data/df_newspaper_filtered_by_paragraph_mergedAB.csv')
 
 
 # Script to annotate random sample of 250 paragraphs
-ANNOTATED_FILE = 'Hausarbeit2.0/Data/gold standard/gold_annotated.csv'
+ANNOTATED_FILE = 'Data/gold standard/gold_annotated.csv'
 
 # If the annotated file doesn't exist yet, create it from a subsample
 if not os.path.exists(ANNOTATED_FILE):
@@ -40,7 +41,7 @@ print("\n✅ Annotation complete. Data saved to:", ANNOTATED_FILE)
 
 
 # Value counts
-gold_standard = pd.read_csv('Hausarbeit2.0/Data/gold standard/gold_annotated.csv')
+gold_standard = pd.read_csv('Data/gold standard/gold_annotated.csv')
 
 gold_standard['gold_standard'].value_counts()
 

@@ -259,7 +259,7 @@ print(summary_table)
 
 
 # Save results
-filtered_by_paragraph_df.to_csv("Hausarbeit2.0/Data/df_newspaper_filtered_by_paragraph_A.csv", index=False)
+filtered_by_paragraph_df.to_csv("Hausarbeit_GenAI_Hanauer/Data/df_newspaper_filtered_by_paragraph_A.csv", index=False)
 
 
 # Plot wordcount

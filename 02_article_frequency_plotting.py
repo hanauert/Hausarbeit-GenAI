@@ -110,7 +110,7 @@ plt.ylabel("Number of Articles")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("Plots/Articles_per_month_newspaper.pdf", format='pdf', bbox_inches='tight')
+plt.savefig("plots/Articles_per_month_newspaper.pdf", format='pdf', bbox_inches='tight')
 plt.show()
 
 

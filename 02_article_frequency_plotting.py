@@ -5,8 +5,8 @@ import os
 os.chdir('/home/USERNAME/Hausarbeit_GenAI_Hanauer') 
 
 # Load datasets A and B
-newspaper_df_A = pd.read_csv('Data/df_newspaper_filtered_by_paragraph_A.csv')
-newspaper_df_B = pd.read_csv('Data/df_newspaper_filtered_by_paragraph_B.csv')
+newspaper_df_A = pd.read_csv('data/df_newspaper_filtered_by_paragraph_A.csv')
+newspaper_df_B = pd.read_csv('data/df_newspaper_filtered_by_paragraph_B.csv')
 
 
 # Ensure article IDs are unique across groups
@@ -23,7 +23,7 @@ columns_to_drop = ['Unnamed: 0', 'text', 'group', 'word_count_paragraph', 'word_
 merged_df = merged_df.drop(columns=columns_to_drop, errors='ignore')
 
 # Save to CSV
-merged_df.to_csv('Data/df_newspaper_filtered_by_paragraph_mergedAB.csv', index=False)
+merged_df.to_csv('data/df_newspaper_filtered_by_paragraph_mergedAB.csv', index=False)
 
 
 

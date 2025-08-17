@@ -11,6 +11,6 @@ Execute code in the given order. The first code files (.py) have been executed o
 Before executing code, set your working directory individually.
 
 ## Run code in Google Colab
-Execute following code (.ipynb) in Google Colab. Upload the data into Google Drive home directory (/MyDrive). 
+Execute following code (.ipynb) in Google Colab. A link to acess the data via Google Drive is provided in the paper. Set working directory accordingly.
 
 The gold_annotation_script.py is a script for easier annotating newspaper paragraphs and does not need to be reproduced. 
